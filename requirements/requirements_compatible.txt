@@ -1,4 +1,4 @@
 huggingface-hub==0.33.0
-diffuser==0.34.0
+diffusers==0.34.0
 peft==0.15.0
 controlnet-aux==0.0.10
