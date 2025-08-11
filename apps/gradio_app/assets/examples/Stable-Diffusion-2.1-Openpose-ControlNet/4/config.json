@@ -1,0 +1,11 @@
+{
+--input_image "tests/test_data/man_and_sword.jpg" \
+    --prompt "A woman is holding a light saber." \
+    --negative_prompt "monochrome, lowres, bad anatomy, ugly, deformed face" \
+    --num_steps 76 \
+    --seed 123 \
+    --width 1024 \
+    --height 1024 \
+    --guidance_scale 12.5 \
+    --controlnet_conditioning_scale 0.75 \
+}
