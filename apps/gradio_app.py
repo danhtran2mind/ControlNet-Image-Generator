@@ -29,9 +29,6 @@ def run_inference(
     height,
     guidance_scale,
     controlnet_conditioning_scale,
-    output_dir,
-    use_prompt_as_output_name,
-    save_output
 ):
     # Define default config path
     config_path = "configs/model_ckpts.yaml"
@@ -49,10 +46,7 @@ def run_inference(
             width=width,
             height=height,
             guidance_scale=guidance_scale,
-            controlnet_conditioning_scale=controlnet_conditioning_scale,
-            output_dir=output_dir,
-            use_prompt_as_output_name=use_prompt_as_output_name,
-            save_output=save_output
+            controlnet_conditioning_scale=float(controlnet_conditioning_scale),
         )
         return result, "Inference completed successfully"
     except Exception as e:
@@ -66,7 +60,6 @@ def create_gui():
         with gr.Row():
             with gr.Column():
                 input_image = gr.Image(type="filepath", label="Input Image")
-                image_url = gr.Textbox(label="Image URL")
                 prompt = gr.Textbox(
                     label="Prompt",
                     value="a man is doing yoga"
@@ -84,12 +77,14 @@ def create_gui():
                         step=1,
                         label="Number of Inference Steps"
                     )
+                    use_random_seed = gr.Checkbox(label="Use Random Seed", value=False)
                     seed = gr.Slider(
                         minimum=0,
                         maximum=1000,
                         value=2,
                         step=1,
-                        label="Random Seed"
+                        label="Random Seed",
+                        visible=True
                     )
                 
                 with gr.Row():
@@ -117,21 +112,10 @@ def create_gui():
                 )
                 controlnet_conditioning_scale = gr.Slider(
                     minimum=0.0,
-                    maximum=2.0,
+                    maximum=1.0,
                     value=1.0,
                     step=0.1,
                     label="ControlNet Conditioning Scale"
-                )
-                
-                output_dir = gr.Textbox(
-                    label="Output Directory",
-                    value="tests/test_data"
-                )
-                use_prompt_as_output_name = gr.Checkbox(
-                    label="Use Prompt as Output Name"
-                )
-                save_output = gr.Checkbox(
-                    label="Save Output Images"
                 )
                 
                 submit_button = gr.Button("Generate Images")
@@ -140,11 +124,20 @@ def create_gui():
                 output_images = gr.Gallery(label="Generated Images")
                 output_message = gr.Textbox(label="Status")
         
+        def update_seed_visibility(use_random):
+            return gr.update(visible=not use_random)
+        
+        use_random_seed.change(
+            fn=update_seed_visibility,
+            inputs=use_random_seed,
+            outputs=seed
+        )
+        
         submit_button.click(
             fn=run_inference,
             inputs=[
                 input_image,
-                image_url,
+                None,  # image_url set to None since it was not chosen
                 prompt,
                 negative_prompt,
                 num_steps,
@@ -153,9 +146,6 @@ def create_gui():
                 height,
                 guidance_scale,
                 controlnet_conditioning_scale,
-                output_dir,
-                use_prompt_as_output_name,
-                save_output
             ],
             outputs=[output_images, output_message]
         )
