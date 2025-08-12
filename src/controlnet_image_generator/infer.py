@@ -10,11 +10,24 @@ from inference.device_manager import setup_device
 from inference.image_processor import load_input_image, detect_poses
 from inference.image_generator import generate_images, save_images
 
-
-
-def infer(args):
+def infer(
+    config_path,
+    input_image,
+    image_url,
+    prompt,
+    negative_prompt,
+    num_steps,
+    seed,
+    width,
+    height,
+    guidance_scale,
+    controlnet_conditioning_scale,
+    output_dir,
+    use_prompt_as_output_name,
+    save_output
+):
     # Load configuration
-    configs = load_config(args.config_path)
+    configs = load_config(config_path)
     
     # Initialize models
     controlnet_detector_config = find_config_by_model_id(configs, "lllyasviel/ControlNet")
@@ -31,27 +44,27 @@ def infer(args):
     device = setup_device(pipe)
     
     # Load and process image
-    demo_image = load_input_image(args.input_image, args.image_url)
+    demo_image = load_input_image(input_image, image_url)
     poses = detect_poses(controlnet_detector, demo_image)
     
     # Generate images
-    generators = [torch.Generator(device="cpu").manual_seed(args.seed + i) for i in range(len(poses))]
+    generators = [torch.Generator(device="cpu").manual_seed(seed + i) for i in range(len(poses))]
     output_images = generate_images(
         pipe,
-        [args.prompt] * len(generators),
+        [prompt] * len(generators),
         poses,
         generators,
-        [args.negative_prompt] * len(generators),
-        args.num_steps,
-        args.guidance_scale,
-        args.controlnet_conditioning_scale,
-        args.width,
-        args.height
+        [negative_prompt] * len(generators),
+        num_steps,
+        guidance_scale,
+        controlnet_conditioning_scale,
+        width,
+        height
     )
     
     # Save images if required
-    if args.save_output:
-        save_images(output_images, args.output_dir, args.prompt, args.use_prompt_as_output_name)
+    if save_output:
+        save_images(output_images, output_dir, prompt, use_prompt_as_output_name)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="ControlNet image generation with pose detection")
@@ -88,4 +101,19 @@ if __name__ == "__main__":
                         help="Save generated images to output directory")
     
     args = parser.parse_args()
-    infer(args)
+    infer(
+        config_path=args.config_path,
+        input_image=args.input_image,
+        image_url=args.image_url,
+        prompt=args.prompt,
+        negative_prompt=args.negative_prompt,
+        num_steps=args.num_steps,
+        seed=args.seed,
+        width=args.width,
+        height=args.height,
+        guidance_scale=args.guidance_scale,
+        controlnet_conditioning_scale=args.controlnet_conditioning_scale,
+        output_dir=args.output_dir,
+        use_prompt_as_output_name=args.use_prompt_as_output_name,
+        save_output=args.save_output
+    )
