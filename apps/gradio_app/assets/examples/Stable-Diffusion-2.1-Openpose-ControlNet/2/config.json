@@ -1,0 +1,12 @@
+{
+  "input_image": "ride_bike.jpg",
+  "output_image": "a_man_is_galloping_on_a_horse_0.png",
+  "prompt": "A man is galloping on a horse.",
+  "negative_prompt": "monochrome, lowres, bad anatomy, ugly, deformed face",
+  "num_steps": 100,
+  "seed": 56,
+  "width": 1080,
+  "height": 720,
+  "guidance_scale": 9.5,
+  "controlnet_conditioning_scale": 0.5
+}

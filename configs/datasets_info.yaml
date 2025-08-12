@@ -1,0 +1,3 @@
+- dataset_name: "HighCWu/open_pose_controlnet_subset"
+  local_dir: "HighCWu-open_pose_controlnet_subset"
+  platform: "HuggingFace"

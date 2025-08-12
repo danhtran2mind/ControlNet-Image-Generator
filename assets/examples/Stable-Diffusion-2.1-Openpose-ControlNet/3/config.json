@@ -1,0 +1,12 @@
+{
+  "input_image": "tennis.jpg",
+  "output_image": "a_woman_is_holding_a_baseball_bat_in_her_hand_0.png",
+  "prompt": "A woman is holding a baseball bat in her hand.",
+  "negative_prompt": "monochrome, lowres, bad anatomy, ugly, deformed face",
+  "num_steps": 100,
+  "seed": 765,
+  "width": 990,
+  "height": 720,
+  "guidance_scale": 6.5,
+  "controlnet_conditioning_scale": 0.7
+}

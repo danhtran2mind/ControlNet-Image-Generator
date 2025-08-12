@@ -1,0 +1,16 @@
+- model_id: "danhtran2mind/Stable-Diffusion-2.1-Openpose-ControlNet"
+  local_dir: "ckpts/Stable-Diffusion-2.1-Openpose-ControlNet"
+  allow: 
+  - diffusion_pytorch_model.safetensors
+  - config.json
+
+- model_id: "stabilityai/stable-diffusion-2-1"
+  local_dir: "ckpts/stable-diffusion-2-1"
+  deny:
+  - v2-1_768-ema-pruned.ckpt
+  - v2-1_768-ema-pruned.safetensors
+  - v2-1_768-nonema-pruned.ckpt
+  - v2-1_768-nonema-pruned.safetensors
+
+- model_id: "lllyasviel/ControlNet"
+  local_dir: null
