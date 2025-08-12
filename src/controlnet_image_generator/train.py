@@ -7,4 +7,4 @@ sys.path.append(os.path.join(os.path.dirname(__file__), "..",
 from train_controlnet import main
 
 if __name__ == "__main__":
-    main()
+    main(sys.argv[1:])

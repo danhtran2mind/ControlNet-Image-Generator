@@ -14,7 +14,7 @@ python scripts/download_ckpts.py
 #### Download Datasets
 
 ```bash
-python scripts/download_ckpts.py
+python scripts/download_datasets.py
 ```
 
 #### Setup Third Party (Diffusers for ControlNet Training)
