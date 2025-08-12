@@ -130,12 +130,12 @@ def create_gui():
                     )  
             
             with gr.Column():
-                output_images = gr.Gallery(label="Generated Images")
+                output_images = gr.Image(label="Generated Images")
                 output_message = gr.Textbox(label="Status")
                 
                 # with gr.Row():
-                submit_button = gr.Button("Generate Images")
-                stop_button = gr.Button("Stop Application")  # Added Stop Button
+                submit_button = gr.Button("Generate Images", elem_classes="submit-btn")
+                stop_button = gr.Button("Stop Application", elem_classes="stop-btn")
 
         def update_seed_visibility(use_random):
             return gr.update(visible=not use_random)

@@ -541,3 +541,39 @@ a:hover { color: #C2410C; }
 .source {   
     font-size: 14px;
 }
+
+/* Start- Stop Buttons */
+.submit-btn {
+    background-color: #22c55e; /* Green background */
+    color: white;
+    font-weight: bold;
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submit-btn:hover {
+    background-color: #16a34a; /* Darker green on hover */
+}
+
+.stop-btn {
+    background-color: #ef4444; /* Red background */
+    color: white;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.stop-btn:hover {
+    background-color: #dc2626; /* Darker red on hover */
+}
+
+/* Optional: Hide Gradio footer */
+footer {
+    visibility: hidden;
+}
