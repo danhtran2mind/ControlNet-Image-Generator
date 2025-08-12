@@ -20,8 +20,6 @@ from src.controlnet_image_generator.infer import (
     save_images
 )
 
-
-
 def run_setup_script():
     setup_script = os.path.join(os.path.dirname(__file__),
                                 "gradio_app", "setup_scripts.py")
@@ -169,7 +167,7 @@ def create_gui():
                     label="Use Prompt as Output Name"
                 )
                 save_output = gr.Checkbox(
-                    label="Save Output Images"
+                    label snorted="Save Output Images"
                 )
                 
                 submit_button = gr.Button("Generate Images")

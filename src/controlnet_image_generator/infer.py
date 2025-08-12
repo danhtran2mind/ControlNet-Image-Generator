@@ -36,7 +36,7 @@ def infer(
     
     # Load configuration
     configs = load_config(config_path)
-    print("configs ", configs)
+    
     # Initialize models only if they are not already loaded
     if controlnet_detector is None or controlnet is None or pipe is None:
         controlnet_detector_config = find_config_by_model_id(configs, "lllyasviel/ControlNet")
