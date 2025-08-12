@@ -19,18 +19,15 @@
 
 ## Introduction 🌟
 
-The **ControlNet Image Generator** is an open-source tool 🛠️ leveraging Stable Diffusion 2.1 and ControlNet with OpenPose to create high-quality, pose-guided images 📸. Perfect for researchers and developers 👩‍💻, it offers precise human pose conditioning, interactive demos, and flexible training/inference scripts under the MIT license 📜.
+The **ControlNet Image Generator** is an open-source tool 🛠️ leveraging `Stable Diffusion 2.1` and ControlNet with OpenPose to create high-quality, pose-guided images 📸. Perfect for researchers and developers 👩‍💻, it offers precise human pose conditioning, interactive demos, and flexible training/inference scripts under the MIT license 📜.
 
 ## Key Features 🚀
 
 - **Pose-Guided Generation** 🕺: Uses OpenPose and ControlNet for accurate pose-conditioned images.
-- **Stable Diffusion 2.1 Base** 🖼️: Built on Stability AI’s robust model for top-notch results.
-- **Interactive Gradio Demo** 🎮: User-friendly interface hosted on Hugging Face Spaces.
+- **Stable Diffusion 2.1** 🖼️: Built on Stability AI’s robust model for top-notch results.
 - **Customizable Scripts** ⚙️: Supports training and inference with detailed options.
-- **Notebook Compatibility** 📒: Works with Colab, SageMaker, Deepnote, JupyterLab, Gradient, Binder, and Kaggle.
 - **Optimized Dependencies** 💻: Uses `diffusers`, `transformers`, `torch`, `gradio`, and more for efficiency.
-- **Specialized Dataset** 📊: Trained on HighCWu/open_pose_controlnet_subset for pose accuracy.
-- **Local & Cloud Support** ☁️: Run locally or explore on cloud platforms.
+- **Specialized Dataset** 📊: Trained on `HighCWu/open_pose_controlnet_subset` for pose accuracy.
 - **Comprehensive Docs** 📚: Guides for installation, training, and inference.
 - **Open-Source** 🌍: MIT-licensed, community-driven via GitHub.
 
