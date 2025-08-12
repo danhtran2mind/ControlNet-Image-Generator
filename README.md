@@ -46,10 +46,10 @@ Explore the Openpose-guided ControlNet implementation in the following notebook:
 
 
 ## Dataset
-The Stable-Diffusion-2.1-Openpose-ControlNet model was trained on the [![HuggingFace Model Hub](https://img.shields.io/badge/HuggingFace-HighCWu%2Fopen_pose_controlnet_subset-yellow?style=flat&logo=huggingface)](https://huggingface.co/datasets/HighCWu/open_pose_controlnet_subset) dataset, available at Hugging Face. This dataset provides specialized data for fine-tuning, enabling precise human pose conditioning using OpenPose for enhanced image generation.
+The `Stable-Diffusion-2.1-Openpose-ControlNet` model was trained on the [![HuggingFace Model Hub](https://img.shields.io/badge/HuggingFace-HighCWu%2Fopen_pose_controlnet_subset-yellow?style=flat&logo=huggingface)](https://huggingface.co/datasets/HighCWu/open_pose_controlnet_subset) dataset, available at Hugging Face. This dataset provides specialized data for fine-tuning, enabling precise human pose conditioning using OpenPose for enhanced image generation.
 
 ## Base Model
-The Stable-Diffusion-2.1-Openpose-ControlNet is built upon the [![HuggingFace Model Hub](https://img.shields.io/badge/HuggingFace-stabilityai%2Fstable--diffusion--2--1-yellow?style=flat&logo=huggingface)](https://huggingface.co/stabilityai/stable-diffusion-2-1) base model. This foundation model, developed by Stability AI, serves as the core architecture, which is further refined with ControlNet to improve control and accuracy in generating pose-conditioned images.
+The `Stable-Diffusion-2.1-Openpose-ControlNet` is built upon the [![HuggingFace Model Hub](https://img.shields.io/badge/HuggingFace-stabilityai%2Fstable--diffusion--2--1-yellow?style=flat&logo=huggingface)](https://huggingface.co/stabilityai/stable-diffusion-2-1) base model. This foundation model, developed by Stability AI, serves as the core architecture, which is further refined with ControlNet to improve control and accuracy in generating pose-conditioned images.
 
 
 
