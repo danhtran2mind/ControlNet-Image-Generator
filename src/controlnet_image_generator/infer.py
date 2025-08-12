@@ -79,6 +79,8 @@ def infer(
     # Save images if required
     if save_output:
         save_images(output_images, output_dir, prompt, use_prompt_as_output_name)
+    
+    return output_images
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="ControlNet image generation with pose detection")
