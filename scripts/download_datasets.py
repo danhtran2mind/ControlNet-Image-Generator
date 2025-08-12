@@ -37,10 +37,12 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     # Load configuration from YAML file
-    config = load_config(args.config_path)
+    configs = load_config(args.config_path)
 
-    # Download dataset if platform is HuggingFace
-    if config['platform'] == 'HuggingFace':
-        download_huggingface_dataset(config)
-    else:
-        print(f"Unsupported platform: {config['platform']}")
+    # Iterate through the list of configurations
+    for config in configs:
+        # Download dataset if platform is HuggingFace
+        if config['platform'] == 'HuggingFace':
+            download_huggingface_dataset(config)
+        else:
+            print(f"Unsupported platform: {config['platform']}")
