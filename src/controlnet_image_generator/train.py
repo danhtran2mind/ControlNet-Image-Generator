@@ -1,19 +1,18 @@
 import os
 import sys
-import argparse
-
-# Add diffusers examples/controlnet to sys.path to import train_controlnet
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", 
-                             "third_party", "diffusers", "examples", "controlnet"))
-from train_controlnet import main
-
-def parse_args():
-    parser = argparse.ArgumentParser(description="Train a ControlNet model with Stable Diffusion",
-                                    allow_abbrev=False)
-    # Don't define any specific arguments to mimic sys.argv[1:]
-    _, all_args = parser.parse_known_args()
-    return all_args
+import subprocess
 
 if __name__ == "__main__":
-    args = parse_args()
-    main(args)
+    # Path to train_controlnet.py
+    controlnet_script = os.path.join(os.path.dirname(__file__), "..", 
+                                     "third_party", "diffusers", "examples", "controlnet", "train_controlnet.py")
+    
+    # Construct the command: python + script path + command-line arguments
+    command = [sys.executable, controlnet_script] + sys.argv[1:]
+    
+    # Run the command
+    try:
+        subprocess.run(command, check=True)
+    except subprocess.CalledProcessError as e:
+        print(f"Error running train_controlnet.py: {e}", file=sys.stderr)
+        sys.exit(e.returncode)
