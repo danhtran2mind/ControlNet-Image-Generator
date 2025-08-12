@@ -40,5 +40,6 @@ if __name__ == "__main__":
     parser.add_argument("--hub_token", type=str, default=None)
     parser.add_argument("--resume_from_checkpoint", type=str, default=None)
     parser.add_argument("--logging_dir", type=str, default="./log")
+    parser.add_argument("--seed", type=int, default=123, help="A seed for reproducible training.")
     args = parser.parse_args()
     main(args)
