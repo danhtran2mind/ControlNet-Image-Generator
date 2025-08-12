@@ -33,9 +33,9 @@ def infer(
     height,
     guidance_scale,
     controlnet_conditioning_scale,
-    output_dir,
-    use_prompt_as_output_name,
-    save_output
+    output_dir=None,
+    use_prompt_as_output_name=None,
+    save_output=False
 ):
     global controlnet_detector, controlnet, pipe
     

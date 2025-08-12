@@ -36,7 +36,7 @@ def run_inference(
     
     # Handle random seed
     if use_random_seed:
-        seed = random.randint(0, 1000)  # Generate random seed if selected
+        seed = random.randint(0, 2 ** 32)  # Generate random seed if selected
     
     # Call the infer function from infer.py
     try:
@@ -74,22 +74,38 @@ def create_gui():
                     value="monochrome, lowres, bad anatomy, worst quality, low quality"
                 )
                 
-                with gr.Row():
-                    num_steps = gr.Slider(
-                        minimum=1,
-                        maximum=100,
-                        value=20,
-                        step=1,
-                        label="Number of Inference Steps"
+                with gr.Accordion("Advanced Settings", open=False):
+                    with gr.Row():
+                        num_steps = gr.Slider(
+                            minimum=1,
+                            maximum=100,
+                            value=20,
+                            step=1,
+                            label="Number of Inference Steps"
+                        )
+                        use_random_seed = gr.Checkbox(label="Use Random Seed", value=False)
+                        seed = gr.Slider(
+                            minimum=0,
+                            maximum=2**32,
+                            value=42,
+                            step=1,
+                            label="Random Seed",
+                            visible=True
+                        )
+                    
+                    guidance_scale = gr.Slider(
+                        minimum=1.0,
+                        maximum=20.0,
+                        value=7.5,
+                        step=0.1,
+                        label="Guidance Scale"
                     )
-                    use_random_seed = gr.Checkbox(label="Use Random Seed", value=False)
-                    seed = gr.Slider(
-                        minimum=0,
-                        maximum=1000,
-                        value=2,
-                        step=1,
-                        label="Random Seed",
-                        visible=True
+                    controlnet_conditioning_scale = gr.Slider(
+                        minimum=0.0,
+                        maximum=1.0,
+                        value=1.0,
+                        step=0.1,
+                        label="ControlNet Conditioning Scale"
                     )
                 
                 with gr.Row():
@@ -107,21 +123,6 @@ def create_gui():
                         step=64,
                         label="Height"
                     )
-                
-                guidance_scale = gr.Slider(
-                    minimum=1.0,
-                    maximum=20.0,
-                    value=7.5,
-                    step=0.1,
-                    label="Guidance Scale"
-                )
-                controlnet_conditioning_scale = gr.Slider(
-                    minimum=0.0,
-                    maximum=1.0,
-                    value=1.0,
-                    step=0.1,
-                    label="ControlNet Conditioning Scale"
-                )
                 
                 submit_button = gr.Button("Generate Images")
             
@@ -150,7 +151,7 @@ def create_gui():
                 height,
                 guidance_scale,
                 controlnet_conditioning_scale,
-                use_random_seed,  # Added to inputs
+                use_random_seed,
             ],
             outputs=[output_images, output_message]
         )
