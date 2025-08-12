@@ -90,7 +90,7 @@ For more information about Scripts, you can see [Download Model Checkpoint Docum
 ### Interactive Demo
 
 Explore the interactive demo hosted on HuggingFace:
-[![HuggingFace Space Demo](https://img.shields.io/badge/HuggingFace-danhtran2mind%2FAnime--Super--Resolution-yellow?style=flat&logo=huggingface)](https://huggingface.co/spaces/danhtran2mind/Anime-Super-Resolution).
+[![HuggingFace Space Demo](https://img.shields.io/badge/HuggingFace-danhtran2mind%2FControlNet--Image--Generator-yellow?style=flat&logo=huggingface)](https://huggingface.co/spaces/danhtran2mind/ControlNet-Image-Generator).
 
 Below is a screenshot of the SlimFace Demo GUI:
 
