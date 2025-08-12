@@ -3,23 +3,19 @@ import os
 import sys
 
 # Add diffusers examples/controlnet to sys.path to import train_controlnet
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", 
-                             "third_party", "diffusers", "examples", "controlnet"))
-
+sys.path.append(os.path.join(os.path.dirname(__file__), "..", "..", "third_party", "diffusers", "examples", "controlnet"))
 from train_controlnet import main
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Train a ControlNet model with Stable Diffusion")
-    parser.add_argument("--pretrained_model_name_or_path", type=str, 
-                        default="stabilityai/stable-diffusion-2-1",
+    parser.add_argument("--pretrained_model_name_or_path", type=str, default="stabilityai/stable-diffusion-2-1",
                         help="Path to pretrained model or model identifier from huggingface.co/models")
-    parser.add_argument("--resume_from_checkpoint", type=str, required=False,
+    parser.add_argument("--resume_from_checkpoint", type=str, 
+                        default="./ckpts/Stable-Diffusion-2.1-Openpose-ControlNet/checkpoint-17500",
                         help="Path to checkpoint to resume training from")
-    parser.add_argument("--output_dir", type=str, 
-                        default="./ckpts/Stable-Diffusion-2.1-Openpose-ControlNet",
+    parser.add_argument("--output_dir", type=str, default="./ckpts/Stable-Diffusion-2.1-Openpose-ControlNet",
                         help="Output directory for saving checkpoints")
-    parser.add_argument("--dataset_name", type=str, 
-                        default="HighCWu/open_pose_controlnet_subset",
+    parser.add_argument("--dataset_name", type=str, default="HighCWu/open_pose_controlnet_subset",
                         help="Name of the dataset on Hugging Face or path to dataset")
     parser.add_argument("--resolution", type=int, default=512,
                         help="Image resolution for training")
@@ -44,10 +40,12 @@ def parse_args():
                         help="Save a checkpoint every X steps")
     parser.add_argument("--validation_steps", type=int, default=100,
                         help="Run validation every X steps")
+    parser.add_argument("--report_to", type=str, default=None,
+                        choices=[None, "tensorboard", "wandb"],
+                        help="Report training metrics to (e.g., tensorboard, wandb, or None)")
     
     return parser.parse_args()
 
 if __name__ == "__main__":
     args = parse_args()
     main(args)
-
