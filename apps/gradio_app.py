@@ -167,7 +167,7 @@ def create_gui():
                     label="Use Prompt as Output Name"
                 )
                 save_output = gr.Checkbox(
-                    label snorted="Save Output Images"
+                    label="Save Output Images"
                 )
                 
                 submit_button = gr.Button("Generate Images")
