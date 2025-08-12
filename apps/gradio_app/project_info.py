@@ -12,14 +12,14 @@ CONTENT_DESCRIPTION = """
 
 CONTENT_IN_1 = """
 <p class="source">
-    For more information, you can check out my GitHub repo:<br>
+    For more information, you can check out my GitHub repository and HuggingFace Model Hub:<br>
     Source code: 
     <a class="badge" href="https://github.com/danhtran2mind/ControlNet-Image-Generator">
-        <img src="https://img.shields.io/badge/GitHub-danhtran2mind%2FControlNet--Image--Generator-blue?style=flat?logo=github" alt="GitHub Repo">
+        <img src="https://img.shields.io/badge/GitHub-danhtran2mind%2FControlNet--Image--Generator-blue?style=flat&logo=github" alt="GitHub Repo">
     </a>,
     Model Hub:
     <a class="badge" href="https://huggingface.co/danhtran2mind/Stable-Diffusion-2.1-Openpose-ControlNet">
-        <img src="https://img.shields.io/badge/HuggingFace-danhtran2mind%2FStable--Diffusion--2.1--Openpose--ControlNet-yellow?style=flat?logo=huggingface" alt="HuggingFace Model">
+        <img src="https://img.shields.io/badge/HuggingFace-danhtran2mind%2FStable--Diffusion--2.1--Openpose--ControlNet-yellow?style=flat&logo=huggingface" alt="HuggingFace Model">
     </a>.
 </p>
 """.strip()

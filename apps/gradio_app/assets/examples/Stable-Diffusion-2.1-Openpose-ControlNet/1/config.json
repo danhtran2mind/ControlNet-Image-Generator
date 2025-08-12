@@ -1,5 +1,6 @@
 {
   "input_image": "yoga.jpg",
+  "output_image": "a_man_is_doing_yoga_in_a_serene_park_0.png",
   "prompt": "A man is doing yoga in a serene park.",
   "negative_prompt": "monochrome, lowres, bad anatomy, ugly, deformed face",
   "num_steps": 50,

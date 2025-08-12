@@ -1,10 +1,12 @@
 import random
 import os
 import sys
-from src.controlnet_image_generator.infer import infer
 
 # Add the project root directory to the Python path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
+
+from src.controlnet_image_generator.infer import infer
+
 
 def run_inference(
     input_image,

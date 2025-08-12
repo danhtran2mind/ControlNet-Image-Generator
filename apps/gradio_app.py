@@ -1,12 +1,9 @@
-
-
 import os
-# import sys
 import subprocess
 import gradio as gr
-# import torch
 import random
 from gradio_app.inference import run_inference
+from gradio_app.examples import load_examples, select_example
 from gradio_app.project_info import (
     NAME, 
     CONTENT_DESCRIPTION, 
@@ -32,14 +29,19 @@ def stop_app():
         return f"Error stopping application: {str(e)}"
 
 def create_gui():
-    cuscustom_css = open("apps/gradio_app/static/style.css").read()
-    with gr.Blocks(css=cuscustom_css) as demo:
+    try:
+        custom_css = open("apps/gradio_app/static/style.css").read()
+    except FileNotFoundError:
+        print("Error: style.css not found at gradio_app/static/style.css")
+        custom_css = ""  # Fallback to empty CSS if file is missing
+
+    with gr.Blocks(css=custom_css) as demo:
         gr.Markdown(NAME)
         gr.HTML(CONTENT_DESCRIPTION)
         gr.HTML(CONTENT_IN_1)
 
         with gr.Row():
-            with gr.Column():
+            with gr.Column(scale=2):
                 input_image = gr.Image(type="filepath", label="Input Image")
                 prompt = gr.Textbox(
                     label="Prompt",
@@ -77,7 +79,7 @@ def create_gui():
                     use_random_seed = gr.Checkbox(label="Use Random Seed", value=False)
                     seed = gr.Slider(
                         minimum=0,
-                        maximum=2**32,
+                        maximum=2**32 - 1,
                         value=42,
                         step=1,
                         label="Random Seed",
@@ -98,12 +100,11 @@ def create_gui():
                         step=0.1,
                         label="ControlNet Conditioning Scale"
                     )  
-            
-            with gr.Column():
+                    
+            with gr.Column(scale=3):
                 output_images = gr.Image(label="Generated Images")
                 output_message = gr.Textbox(label="Status")
                 
-                # with gr.Row():
                 submit_button = gr.Button("Generate Images", elem_classes="submit-btn")
                 stop_button = gr.Button("Stop Application", elem_classes="stop-btn")
 
@@ -114,6 +115,43 @@ def create_gui():
             fn=update_seed_visibility,
             inputs=use_random_seed,
             outputs=seed
+        )
+        
+        # Load examples
+        examples_data = load_examples(os.path.join("apps", "gradio_app", 
+            "assets", "examples", "Stable-Diffusion-2.1-Openpose-ControlNet"))
+        examples_component = gr.Examples(
+            examples=examples_data,
+            inputs=[
+                input_image,
+                prompt,
+                negative_prompt,
+                output_images,
+                num_steps,
+                seed,
+                width,
+                height,
+                guidance_scale,
+                controlnet_conditioning_scale,
+                use_random_seed
+            ],
+            outputs=[
+                input_image,
+                prompt,
+                negative_prompt,
+                output_images,
+                num_steps,
+                seed,
+                width,
+                height,
+                guidance_scale,
+                controlnet_conditioning_scale,
+                use_random_seed,
+                output_message
+            ],
+            fn=select_example,
+            cache_examples=False,
+            label="Examples: Yoga Poses"
         )
         
         submit_button.click(
@@ -138,7 +176,7 @@ def create_gui():
             inputs=[],
             outputs=[output_message]
         )
-
+        
         gr.HTML(CONTENT_OUT_1)
         
     return demo

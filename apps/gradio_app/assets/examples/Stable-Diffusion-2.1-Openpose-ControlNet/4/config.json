@@ -1,5 +1,6 @@
 {
   "input_image": "man_and_sword.jpg",
+  "output_image": "a_woman_raises_a_katana_0.png",
   "prompt": "A woman raises a katana.",
   "negative_prompt": "body elongated, fragmentation, many hands, ugly, deformed face",
   "num_steps": 50,
