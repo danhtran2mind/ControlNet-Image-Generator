@@ -13,10 +13,6 @@ from gradio_app.project_info import (
     CONTENT_IN_1, 
     CONTENT_OUT_1
 )
-# Add the project root directory to the Python path
-# sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
-# from src.controlnet_image_generator.infer import infer
 
 def run_setup_script():
     setup_script = os.path.join(os.path.dirname(__file__), "gradio_app", "setup_scripts.py")
@@ -26,42 +22,6 @@ def run_setup_script():
     except subprocess.CalledProcessError as e:
         print(f"Setup script failed with error: {e.stderr}")
         return f"Setup script failed: {e.stderr}"
-
-# def run_inference(
-#     input_image,
-#     prompt,
-#     negative_prompt,
-#     num_steps,
-#     seed,
-#     width,
-#     height,
-#     guidance_scale,
-#     controlnet_conditioning_scale,
-#     use_random_seed=False,
-# ):
-#     config_path = "configs/model_ckpts.yaml"
-    
-#     if use_random_seed:
-#         seed = random.randint(0, 2 ** 32)
-    
-#     try:
-#         result = infer(
-#             config_path=config_path,
-#             input_image=input_image,
-#             image_url=None,
-#             prompt=prompt,
-#             negative_prompt=negative_prompt,
-#             num_steps=num_steps,
-#             seed=seed,
-#             width=width,
-#             height=height,
-#             guidance_scale=guidance_scale,
-#             controlnet_conditioning_scale=float(controlnet_conditioning_scale),
-#         )
-#         result = list(result)[0]
-#         return result, "Inference completed successfully"
-#     except Exception as e:
-#         return [], f"Error during inference: {str(e)}"
 
 def stop_app():
     """Function to stop the Gradio app."""
