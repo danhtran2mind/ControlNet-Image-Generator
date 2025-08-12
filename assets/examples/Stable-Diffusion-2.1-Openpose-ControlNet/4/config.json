@@ -1,0 +1,11 @@
+{
+  "input_image": "man_and_sword.jpg",
+  "prompt": "A woman raises a katana.",
+  "negative_prompt": "body elongated, fragmentation, many hands, ugly, deformed face",
+  "num_steps": 50,
+  "seed": 78,
+  "width": 540,
+  "height": 512,
+  "guidance_scale": 6.5,
+  "controlnet_conditioning_scale": 0.8
+}
