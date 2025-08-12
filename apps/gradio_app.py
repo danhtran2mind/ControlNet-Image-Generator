@@ -3,6 +3,7 @@ import sys
 import subprocess
 import gradio as gr
 import torch
+import random  # Added for random seed handling
 
 # Add the project root directory to the Python path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
@@ -20,7 +21,6 @@ def run_setup_script():
 
 def run_inference(
     input_image,
-    image_url,
     prompt,
     negative_prompt,
     num_steps,
@@ -29,16 +29,21 @@ def run_inference(
     height,
     guidance_scale,
     controlnet_conditioning_scale,
+    use_random_seed=False,  # Added parameter
 ):
     # Define default config path
     config_path = "configs/model_ckpts.yaml"
+    
+    # Handle random seed
+    if use_random_seed:
+        seed = random.randint(0, 1000)  # Generate random seed if selected
     
     # Call the infer function from infer.py
     try:
         result = infer(
             config_path=config_path,
             input_image=input_image,
-            image_url=image_url,
+            image_url=None,  # Explicitly set to None since not used
             prompt=prompt,
             negative_prompt=negative_prompt,
             num_steps=num_steps,
@@ -137,7 +142,6 @@ def create_gui():
             fn=run_inference,
             inputs=[
                 input_image,
-                None,  # image_url set to None since it was not chosen
                 prompt,
                 negative_prompt,
                 num_steps,
@@ -146,6 +150,7 @@ def create_gui():
                 height,
                 guidance_scale,
                 controlnet_conditioning_scale,
+                use_random_seed,  # Added to inputs
             ],
             outputs=[output_images, output_message]
         )
