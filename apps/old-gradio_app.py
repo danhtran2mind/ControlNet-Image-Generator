@@ -1,22 +1,14 @@
-
-
 import os
-# import sys
+import sys
 import subprocess
 import gradio as gr
-# import torch
+import torch
 import random
-from gradio_app.inference import run_inference
-from gradio_app.project_info import (
-    NAME, 
-    CONTENT_DESCRIPTION, 
-    CONTENT_IN_1, 
-    CONTENT_OUT_1
-)
-# Add the project root directory to the Python path
-# sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-# from src.controlnet_image_generator.infer import infer
+# Add the project root directory to the Python path
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from src.controlnet_image_generator.infer import infer
 
 def run_setup_script():
     setup_script = os.path.join(os.path.dirname(__file__), "gradio_app", "setup_scripts.py")
@@ -27,41 +19,41 @@ def run_setup_script():
         print(f"Setup script failed with error: {e.stderr}")
         return f"Setup script failed: {e.stderr}"
 
-# def run_inference(
-#     input_image,
-#     prompt,
-#     negative_prompt,
-#     num_steps,
-#     seed,
-#     width,
-#     height,
-#     guidance_scale,
-#     controlnet_conditioning_scale,
-#     use_random_seed=False,
-# ):
-#     config_path = "configs/model_ckpts.yaml"
+def run_inference(
+    input_image,
+    prompt,
+    negative_prompt,
+    num_steps,
+    seed,
+    width,
+    height,
+    guidance_scale,
+    controlnet_conditioning_scale,
+    use_random_seed=False,
+):
+    config_path = "configs/model_ckpts.yaml"
     
-#     if use_random_seed:
-#         seed = random.randint(0, 2 ** 32)
+    if use_random_seed:
+        seed = random.randint(0, 2 ** 32)
     
-#     try:
-#         result = infer(
-#             config_path=config_path,
-#             input_image=input_image,
-#             image_url=None,
-#             prompt=prompt,
-#             negative_prompt=negative_prompt,
-#             num_steps=num_steps,
-#             seed=seed,
-#             width=width,
-#             height=height,
-#             guidance_scale=guidance_scale,
-#             controlnet_conditioning_scale=float(controlnet_conditioning_scale),
-#         )
-#         result = list(result)[0]
-#         return result, "Inference completed successfully"
-#     except Exception as e:
-#         return [], f"Error during inference: {str(e)}"
+    try:
+        result = infer(
+            config_path=config_path,
+            input_image=input_image,
+            image_url=None,
+            prompt=prompt,
+            negative_prompt=negative_prompt,
+            num_steps=num_steps,
+            seed=seed,
+            width=width,
+            height=height,
+            guidance_scale=guidance_scale,
+            controlnet_conditioning_scale=float(controlnet_conditioning_scale),
+        )
+        result = list(result)[0]
+        return result, "Inference completed successfully"
+    except Exception as e:
+        return [], f"Error during inference: {str(e)}"
 
 def stop_app():
     """Function to stop the Gradio app."""
@@ -74,10 +66,8 @@ def stop_app():
 def create_gui():
     cuscustom_css = open("apps/gradio_app/static/style.css").read()
     with gr.Blocks(css=cuscustom_css) as demo:
-        gr.Markdown(NAME)
-        gr.HTML(CONTENT_DESCRIPTION)
-        gr.HTML(CONTENT_IN_1)
-
+        gr.Markdown("# ControlNet Image Generation with Pose Detection")
+        
         with gr.Row():
             with gr.Column():
                 input_image = gr.Image(type="filepath", label="Input Image")
@@ -179,8 +169,6 @@ def create_gui():
             outputs=[output_message]
         )
 
-        gr.HTML(CONTENT_OUT_1)
-        
     return demo
 
 if __name__ == "__main__":

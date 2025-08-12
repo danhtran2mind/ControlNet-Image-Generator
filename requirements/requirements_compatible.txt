@@ -4,3 +4,4 @@ diffusers==0.34.0
 peft==0.17.0
 controlnet-aux==0.0.10
 accelerate==1.7.0
+gradio==5.39.0

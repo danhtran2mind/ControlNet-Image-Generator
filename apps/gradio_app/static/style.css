@@ -572,8 +572,3 @@ a:hover { color: #C2410C; }
 .stop-btn:hover {
     background-color: #dc2626; /* Darker red on hover */
 }
-
-/* Optional: Hide Gradio footer */
-footer {
-    visibility: hidden;
-}
