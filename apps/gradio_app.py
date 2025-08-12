@@ -3,7 +3,7 @@ import sys
 import subprocess
 import gradio as gr
 import torch
-import random  # Added for random seed handling
+import random
 
 # Add the project root directory to the Python path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
@@ -29,21 +29,18 @@ def run_inference(
     height,
     guidance_scale,
     controlnet_conditioning_scale,
-    use_random_seed=False,  # Added parameter
+    use_random_seed=False,
 ):
-    # Define default config path
     config_path = "configs/model_ckpts.yaml"
     
-    # Handle random seed
     if use_random_seed:
-        seed = random.randint(0, 2 ** 32)  # Generate random seed if selected
+        seed = random.randint(0, 2 ** 32)
     
-    # Call the infer function from infer.py
     try:
         result = infer(
             config_path=config_path,
             input_image=input_image,
-            image_url=None,  # Explicitly set to None since not used
+            image_url=None,
             prompt=prompt,
             negative_prompt=negative_prompt,
             num_steps=num_steps,
@@ -53,12 +50,20 @@ def run_inference(
             guidance_scale=guidance_scale,
             controlnet_conditioning_scale=float(controlnet_conditioning_scale),
         )
+        result = result[0]
         return result, "Inference completed successfully"
     except Exception as e:
         return [], f"Error during inference: {str(e)}"
 
+def stop_app():
+    """Function to stop the Gradio app."""
+    try:
+        gr.Interface.close_all()  # Attempt to close all running Gradio interfaces
+        return "Application stopped successfully."
+    except Exception as e:
+        return f"Error stopping application: {str(e)}"
+
 def create_gui():
-    # Create Gradio interface
     with gr.Blocks() as demo:
         gr.Markdown("# ControlNet Image Generation with Pose Detection")
         
@@ -91,7 +96,6 @@ def create_gui():
                     )
                 
                 with gr.Accordion("Advanced Settings", open=False):
-                    # with gr.Row():
                     num_steps = gr.Slider(
                         minimum=1,
                         maximum=100,
@@ -122,14 +126,16 @@ def create_gui():
                         value=1.0,
                         step=0.1,
                         label="ControlNet Conditioning Scale"
-                    )
-
-                submit_button = gr.Button("Generate Images")
+                    )  
             
             with gr.Column():
                 output_images = gr.Gallery(label="Generated Images")
                 output_message = gr.Textbox(label="Status")
-        
+                
+                with gr.Row():
+                    submit_button = gr.Button("Generate Images")
+                    stop_button = gr.Button("Stop Application")  # Added Stop Button
+
         def update_seed_visibility(use_random):
             return gr.update(visible=not use_random)
         
@@ -154,6 +160,12 @@ def create_gui():
                 use_random_seed,
             ],
             outputs=[output_images, output_message]
+        )
+        
+        stop_button.click(
+            fn=stop_app,
+            inputs=[],
+            outputs=[output_message]
         )
 
     return demo
