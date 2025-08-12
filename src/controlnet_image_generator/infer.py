@@ -11,36 +11,10 @@ from inference.image_processor import load_input_image, detect_poses
 from inference.image_generator import generate_images, save_images
 
 # Global variables to store models
+global controlnet_detector, controlnet, pipe
 controlnet_detector = None
 controlnet = None
 pipe = None
-
-def initialize_models(config_path):
-    """Initialize models and store them in global variables."""
-    global controlnet_detector, controlnet, pipe
-    
-    # Load configuration
-    configs = load_config(config_path)
-    
-    # Initialize models if not already initialized
-    if controlnet_detector is None:
-        controlnet_detector_config = find_config_by_model_id(configs, "lllyasviel/ControlNet")
-        controlnet_detector = initialize_controlnet_detector(controlnet_detector_config)
-    
-    if controlnet is None:
-        controlnet_config = find_config_by_model_id(configs, 
-                                                  "danhtran2mind/Stable-Diffusion-2.1-Openpose-ControlNet")
-        controlnet = initialize_controlnet(controlnet_config)
-    
-    if pipe is None:
-        pipeline_config = find_config_by_model_id(configs, 
-                                                "stabilityai/stable-diffusion-2-1")
-        pipe = initialize_pipeline(controlnet, pipeline_config)
-    
-    # Setup device
-    device = setup_device(pipe)
-    
-    return controlnet_detector, controlnet, pipe
 
 def infer(
     config_path,
@@ -58,10 +32,25 @@ def infer(
     use_prompt_as_output_name,
     save_output
 ):
-    # Initialize models if not already initialized
     global controlnet_detector, controlnet, pipe
-    if any(model is None for model in [controlnet_detector, controlnet, pipe]):
-        controlnet_detector, controlnet, pipe = initialize_models(config_path)
+    
+    # Load configuration
+    configs = load_config(config_path)
+    
+    # Initialize models only if they are not already loaded
+    if controlnet_detector is None or controlnet is None or pipe is None:
+        controlnet_detector_config = find_config_by_model_id(configs, "lllyasviel/ControlNet")
+        controlnet_config = find_config_by_model_id(configs, 
+                                                    "danhtran2mind/Stable-Diffusion-2.1-Openpose-ControlNet")
+        pipeline_config = find_config_by_model_id(configs, 
+                                                "stabilityai/stable-diffusion-2.1")
+        
+        controlnet_detector = initialize_controlnet_detector(controlnet_detector_config)
+        controlnet = initialize_controlnet(controlnet_config)
+        pipe = initialize_pipeline(controlnet, pipeline_config)
+    
+    # Setup device
+    device = setup_device(pipe)
     
     # Load and process image
     demo_image = load_input_image(input_image, image_url)
@@ -121,11 +110,6 @@ if __name__ == "__main__":
                         help="Save generated images to output directory")
     
     args = parser.parse_args()
-    
-    # Initialize models once
-    initialize_models(args.config_path)
-    
-    # Run inference
     infer(
         config_path=args.config_path,
         input_image=args.input_image,
