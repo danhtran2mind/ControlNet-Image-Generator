@@ -1,5 +1,10 @@
 import torch
 import argparse
+import os
+import sys
+# Add the project root directory to the Python path
+sys.path.append(os.path.abspath(os.path.dirname(__file__)))
+
 from inference.config_loader import load_config, find_config_by_model_id
 from inference.model_initializer import (
     initialize_controlnet, 
