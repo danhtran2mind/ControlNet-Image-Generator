@@ -7,22 +7,10 @@ import torch
 # Add the project root directory to the Python path
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from src.controlnet_image_generator.infer import (
-    load_config,
-    find_config_by_model_id,
-    initialize_controlnet,
-    initialize_pipeline,
-    initialize_controlnet_detector,
-    setup_device,
-    load_input_image,
-    detect_poses,
-    generate_images,
-    save_images
-)
+from src.controlnet_image_generator.infer import infer
 
 def run_setup_script():
-    setup_script = os.path.join(os.path.dirname(__file__),
-                                "gradio_app", "setup_scripts.py")
+    setup_script = os.path.join(os.path.dirname(__file__), "gradio_app", "setup_scripts.py")
     try:
         result = subprocess.run(["python", setup_script], capture_output=True, text=True, check=True)
         return result.stdout
@@ -45,56 +33,32 @@ def run_inference(
     use_prompt_as_output_name,
     save_output
 ):
-    # Validate inputs
-    if not input_image and not image_url:
-        return None, "Please provide either an input image or an image URL"
-    
-    # Load configuration
+    # Define default config path
     config_path = "configs/model_ckpts.yaml"
-    configs = load_config(config_path)
     
-    # Initialize models
-    controlnet_detector_config = find_config_by_model_id(configs, "lllyasviel/ControlNet")
-    controlnet_config = find_config_by_model_id(configs, 
-                                              "danhtran2mind/Stable-Diffusion-2.1-Openpose-ControlNet")
-    pipeline_config = find_config_by_model_id(configs, 
-                                            "stabilityai/stable-diffusion-2-1")
-    
-    controlnet_detector = initialize_controlnet_detector(controlnet_detector_config)
-    controlnet = initialize_controlnet(controlnet_config)
-    pipe = initialize_pipeline(controlnet, pipeline_config)
-    
-    # Setup device
-    device = setup_device(pipe)
-    
-    # Load and process image
-    demo_image = load_input_image(input_image, image_url)
-    poses = detect_poses(controlnet_detector, demo_image)
-    
-    # Generate images
-    generators = [torch.Generator(device="cpu").manual_seed(seed + i) for i in range(len(poses))]
-    output_images = generate_images(
-        pipe,
-        [prompt] * len(generators),
-        poses,
-        generators,
-        [negative_prompt] * len(generators),
-        num_steps,
-        guidance_scale,
-        controlnet_conditioning_scale,
-        width,
-        height
-    )
-    
-    # Save images if required
-    if save_output:
-        os.makedirs(output_dir, exist_ok=True)
-        save_images(output_images, output_dir, prompt, use_prompt_as_output_name)
-    
-    return output_images, "Image generation completed successfully"
+    # Call the infer function from infer.py
+    try:
+        result = infer(
+            config_path=config_path,
+            input_image=input_image,
+            image_url=image_url,
+            prompt=prompt,
+            negative_prompt=negative_prompt,
+            num_steps=num_steps,
+            seed=seed,
+            width=width,
+            height=height,
+            guidance_scale=guidance_scale,
+            controlnet_conditioning_scale=controlnet_conditioning_scale,
+            output_dir=output_dir,
+            use_prompt_as_output_name=use_prompt_as_output_name,
+            save_output=save_output
+        )
+        return result, "Inference completed successfully"
+    except Exception as e:
+        return [], f"Error during inference: {str(e)}"
 
 def create_gui():
-    
     # Create Gradio interface
     with gr.Blocks() as demo:
         gr.Markdown("# ControlNet Image Generation with Pose Detection")
@@ -196,7 +160,7 @@ def create_gui():
             outputs=[output_images, output_message]
         )
 
-        return demo
+    return demo
 
 if __name__ == "__main__":
     run_setup_script()
