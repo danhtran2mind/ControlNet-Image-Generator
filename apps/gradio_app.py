@@ -64,7 +64,7 @@ def stop_app():
         return f"Error stopping application: {str(e)}"
 
 def create_gui():
-    cuscustom_css = open("apps/gradio_app/static/styles.css").read()
+    cuscustom_css = open("apps/gradio_app/static/style.css").read()
     with gr.Blocks(css=cuscustom_css) as demo:
         gr.Markdown("# ControlNet Image Generation with Pose Detection")
         
