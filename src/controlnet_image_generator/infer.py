@@ -36,14 +36,14 @@ def infer(
     
     # Load configuration
     configs = load_config(config_path)
-    
+    print("configs ", configs)
     # Initialize models only if they are not already loaded
     if controlnet_detector is None or controlnet is None or pipe is None:
         controlnet_detector_config = find_config_by_model_id(configs, "lllyasviel/ControlNet")
         controlnet_config = find_config_by_model_id(configs, 
                                                     "danhtran2mind/Stable-Diffusion-2.1-Openpose-ControlNet")
         pipeline_config = find_config_by_model_id(configs, 
-                                                "stabilityai/stable-diffusion-2.1")
+                                                  "stabilityai/stable-diffusion-2-1")
         
         controlnet_detector = initialize_controlnet_detector(controlnet_detector_config)
         controlnet = initialize_controlnet(controlnet_config)
