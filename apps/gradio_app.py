@@ -50,7 +50,7 @@ def run_inference(
             guidance_scale=guidance_scale,
             controlnet_conditioning_scale=float(controlnet_conditioning_scale),
         )
-        result = result[0]
+        result = list(result)[0]
         return result, "Inference completed successfully"
     except Exception as e:
         return [], f"Error during inference: {str(e)}"
@@ -64,7 +64,8 @@ def stop_app():
         return f"Error stopping application: {str(e)}"
 
 def create_gui():
-    with gr.Blocks() as demo:
+    cuscustom_css = open("apps/gradio_app/static/styles.css").read()
+    with gr.Blocks(css=cuscustom_css) as demo:
         gr.Markdown("# ControlNet Image Generation with Pose Detection")
         
         with gr.Row():
@@ -132,9 +133,9 @@ def create_gui():
                 output_images = gr.Gallery(label="Generated Images")
                 output_message = gr.Textbox(label="Status")
                 
-                with gr.Row():
-                    submit_button = gr.Button("Generate Images")
-                    stop_button = gr.Button("Stop Application")  # Added Stop Button
+                # with gr.Row():
+                submit_button = gr.Button("Generate Images")
+                stop_button = gr.Button("Stop Application")  # Added Stop Button
 
         def update_seed_visibility(use_random):
             return gr.update(visible=not use_random)
