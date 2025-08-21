@@ -53,7 +53,7 @@ The `Stable-Diffusion-2.1-Openpose-ControlNet` is built upon the [![HuggingFace 
 
 
 
-## Installation
+## Getting Started
 ### Clone GitHub Repository
 ```bash
 git clone https://github.com/danhtran2mind/ControlNet-Image-Generator.git
